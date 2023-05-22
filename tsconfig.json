@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "allowJs": true,
+    "allowJs": false,
     "target": "ES2017",
     "module": "ES2022",
     "lib": ["es2022", "DOM", "WebWorker", "DOM.Iterable"],
@@ -10,17 +10,16 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": false,
     "skipLibCheck": true,
     "incremental": true,
     "isolatedModules": true,
     "outDir": "tmp",
     "noEmit": true,
-    "types": ["node", "vite/client"],
-    "paths": {
-      "~/*": ["./src/*"]
-    }
+    "types": ["node", "vite/client", "./src/interfaces"],
+    "useDefineForClassFields": true
   },
-  "files": ["./.eslintrc.cjs"],
-  "include": ["src", "./*.d.ts"]
+  "include": ["src", "./*.d.ts"],
+  "exclude": [".eslintrc.cjs"]
 }
