@@ -1,11 +1,12 @@
 import {
   Resource,
+  Slot,
   component$,
   useContextProvider,
   useResource$,
   useStore
 } from "@builder.io/qwik";
-import { type DocumentHead } from "@builder.io/qwik-city";
+import { type DocumentHead, useLocation } from "@builder.io/qwik-city";
 import MenuPlanets from "../components/planet/planet-menu";
 import { planetContextNoe } from "../context/PlanetContext";
 import type { PlanetContextProps } from "../types/context";
@@ -23,26 +24,34 @@ const initialValue: PlanetContextProps = {
 };
 
 export default component$(() => {
+  const loc = useLocation();
   const signal = useStore({ ...initialValue });
   useContextProvider(planetContextNoe, signal);
 
-  const planetResource = useResource$(({ track }) => {
-    track(() => signal);
-    return ServicePlanets.get(signal.selectedPlanet);
+  const planetResource = useResource$(async ({ track }) => {
+    const planetName = track(() => signal.selectedPlanet);
+    const resp = await ServicePlanets.get(planetName);
+    signal.data = resp;
+    signal.selectedPlanet = planetName;
+    return signal.data;
   });
 
   return (
     <>
       <MenuPlanets />
-      <Resource
-        value={planetResource}
-        onPending={() => <LoadingPlanet />}
-        onRejected={(error) => <>Error: {error.message}</>}
-        onResolved={(data) => {
-          signal.data = data;
-          return <PlanetMain />;
-        }}
-      />
+      {!loc.params?.planetName ? (
+        <Resource
+          value={planetResource}
+          onPending={() => <LoadingPlanet />}
+          onRejected={(error) => <>Error: {error.message}</>}
+          onResolved={(resp) => {
+            signal.data = resp;
+            return <PlanetMain />;
+          }}
+        />
+      ) : (
+        <Slot />
+      )}
     </>
   );
 });

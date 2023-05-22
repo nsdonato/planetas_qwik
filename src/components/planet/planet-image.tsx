@@ -20,8 +20,6 @@ export default component$(() => {
     ([title, value]) => charName.includes(title) && value
   )[0];
 
-  console.log("images", images);
-
   return (
     <div class="grid col-span-12 h-[260px] md:h-[426px] lg:col-span-7 lg:h-[670px] relative">
       <picture class="flex items-center justify-center">
