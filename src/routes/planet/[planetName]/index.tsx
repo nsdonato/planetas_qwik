@@ -4,21 +4,25 @@ import {
   useContext,
   useResource$
 } from "@builder.io/qwik";
+import type { RequestHandler } from "@builder.io/qwik-city";
 import { useLocation } from "@builder.io/qwik-city";
 import { ServicePlanets } from "../../../service/planet";
-import LoadingPlanet from "../../../components/loading-planet";
 import { planetContextNoe } from "../../../context/PlanetContext";
-import PlanetMain from "../../../components/planet/planet-main";
+import { PlanetMain, LoadingPlanet } from "../../../components/planet";
+import { verifyPath } from "../../../helper/routeHelper";
+
+export const onGet: RequestHandler = async (requestEvent) => {
+  verifyPath(requestEvent);
+};
 
 export default component$(() => {
-  const loc = useLocation();
   const infoContext = useContext(planetContextNoe);
+  const loc = useLocation();
 
   const planetResource = useResource$(async ({ track }) => {
     const planetName = track(() => loc.params.planetName);
     const resp = await ServicePlanets.get(planetName);
     infoContext.data = resp;
-    infoContext.selectedPlanet = planetName;
     return infoContext.data;
   });
 
@@ -28,7 +32,6 @@ export default component$(() => {
       onPending={() => <LoadingPlanet />}
       onRejected={(error) => <>Error: {error.message}</>}
       onResolved={(resp) => {
-        console.log("resp", resp);
         infoContext.data = resp;
         return <PlanetMain />;
       }}

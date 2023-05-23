@@ -5,11 +5,11 @@ interface ImageIconProps {
   src: string;
   styles: string;
   altImage: string;
-  eventClick?: PropFunction;
+  toggleMenu?: PropFunction;
 }
 
 export default component$(
-  ({ src, styles = "", altImage = "", eventClick }: ImageIconProps) => (
-    <img src={src} class={styles} alt={altImage} onClick$={eventClick} />
+  ({ src, styles = "", altImage = "", toggleMenu }: ImageIconProps) => (
+    <img src={src} class={styles} alt={altImage} onClick$={toggleMenu} />
   )
 );

@@ -9,13 +9,15 @@ import {
 } from "@builder.io/qwik";
 import { planetContextNoe } from "../../context/PlanetContext";
 import type { MenuPlanetItem } from "../../types";
+import { useNavigate } from "@builder.io/qwik-city";
 
 interface NavButtonsProps {
   styles: string;
-  hiddenMenu: () => {};
+  toggleMenu: () => {};
 }
-export default component$<NavButtonsProps>(({ styles, hiddenMenu }) => {
+export default component$<NavButtonsProps>(({ styles }) => {
   const infoContext = useContext(planetContextNoe);
+  const nav = useNavigate();
 
   useVisibleTask$(({ track }) => {
     track(() => infoContext.selectedPlanet);
@@ -27,10 +29,12 @@ export default component$<NavButtonsProps>(({ styles, hiddenMenu }) => {
         {planets.map((p: MenuPlanetItem) => {
           return (
             <Fragment key={p.name}>
-              <li onClick$={hiddenMenu} class="hover:bg-darkGray/20">
+              <li class="hover:bg-darkGray/20">
                 <button
-                  onClick$={() => {
+                  onClick$={async () => {
                     infoContext.selectedPlanet = p.name;
+                    await nav(`/planet/${p.name}`);
+                    infoContext.showMenu = false;
                   }}
                   class="w-full py-5 flex items-center uppercase justify-between text-white"
                 >

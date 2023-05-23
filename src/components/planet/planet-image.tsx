@@ -1,10 +1,10 @@
+/* eslint-disable qwik/jsx-img */
 import { component$, useContext } from "@builder.io/qwik";
 import { planetContextNoe } from "../../context/PlanetContext";
 
 export default component$(() => {
   const infoContext = useContext(planetContextNoe);
   const planet = infoContext?.data;
-
   const charName = infoContext.selectedCharacteristic;
 
   const planetImages = planet?.images;

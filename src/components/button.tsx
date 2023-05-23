@@ -1,4 +1,4 @@
-import { component$, useContext, useVisibleTask$ } from "@builder.io/qwik";
+import { component$, useContext } from "@builder.io/qwik";
 import { planetContextNoe } from "../context/PlanetContext";
 
 interface ButtonProp {
@@ -11,10 +11,6 @@ interface ButtonProp {
 export default component$<ButtonProp>(
   ({ title, name, characteristicName, index }) => {
     const infoContext = useContext(planetContextNoe);
-
-    useVisibleTask$(async ({ track }) => {
-      track(() => infoContext.selectedCharacteristic);
-    });
 
     return (
       <button

@@ -1,9 +1,9 @@
+/* eslint-disable qwik/jsx-img */
 import { component$ } from "@builder.io/qwik";
 
 export default component$(() => {
   return (
     <div class="flex flex-col justify-center items-center min-h-screen">
-      {/* eslint-disable-next-line qwik/jsx-img */}
       <img
         class="w-[200px] animate-bounce md:w-[300px]"
         src="/assets/earth-loading.svg"

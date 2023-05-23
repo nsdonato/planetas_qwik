@@ -5,14 +5,15 @@ import { planetContextNoe } from "../../context/PlanetContext";
 
 export default component$(() => {
   const infoContext = useContext(planetContextNoe);
-  const planet = infoContext.data;
+
+  const planet = infoContext.data!;
   const planetName = infoContext?.data?.name || infoContext.selectedPlanet;
   const charName = infoContext.selectedCharacteristic;
 
   const dataButtons = {
-    overview: planet?.overview,
-    "internal-structure": planet?.structure,
-    "surface-geology": planet?.geology
+    overview: planet.overview,
+    "internal-structure": planet.structure,
+    "surface-geology": planet.geology
   };
 
   const [characteristicName, dataCharacteristic] = Object.entries(
@@ -28,7 +29,7 @@ export default component$(() => {
       <PlanetButton
         characteristicName={characteristicName}
         dataButtons={dataButtons}
-        name={planet?.name}
+        name={planet.name}
       />
     </div>
   );

@@ -1,13 +1,14 @@
-import { component$, $ } from "@builder.io/qwik";
-import NavBarButtons from "../nav/nav-buttons";
-import NavHeader from "../nav/nav-header";
+import { component$, $, useContext } from "@builder.io/qwik";
+import { NavBarButtons, NavHeader } from "../nav/index";
 import Line from "../line";
 import ImageIcon from "../image-icon";
+import { planetContextNoe } from "../../context/PlanetContext";
 
 export default component$(() => {
-  const showMenu = false;
-  const toggleMenu = $(() => {});
-  const hiddenMenu = $(() => {});
+  const infoContext = useContext(planetContextNoe);
+  const toggleMenu = $(() => {
+    infoContext.showMenu = !infoContext.showMenu;
+  });
 
   return (
     <section>
@@ -16,18 +17,20 @@ export default component$(() => {
           the planets
         </h1>
         <ImageIcon
-          src={`/assets/icon-hamburger-${showMenu ? "open" : "close"}.svg`}
+          src={`/assets/icon-hamburger-${
+            infoContext.showMenu ? "open" : "close"
+          }.svg`}
           styles="cursor-pointer w-6 h-4 md:hidden"
           altImage="icono de menú para celulares"
-          eventClick={toggleMenu}
+          toggleMenu={toggleMenu}
         />
         <NavHeader styles="hidden md:flex md:mb-6 md:mt-[33px] lg:mb-0 lg:mt-0" />
       </header>
       <Line styles="fixed top-[68px] w-full z-10 md:static" />
       <NavBarButtons
-        hiddenMenu={hiddenMenu}
+        toggleMenu={toggleMenu}
         styles={`flex px-6 z-10 fixed bg-darkBlue pt-6 w-full ${
-          showMenu
+          infoContext.showMenu
             ? "ease-in duration-300 top-[69px]"
             : "ease-in duration-300 mt-[-547px] top-[-69px]"
         } md:hidden`}
