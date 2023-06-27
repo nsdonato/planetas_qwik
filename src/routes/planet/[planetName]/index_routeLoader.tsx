@@ -1,4 +1,4 @@
-import { component$, useContext, useTask$ } from "@builder.io/qwik";
+import { component$, useContext } from "@builder.io/qwik";
 import type { RequestHandler } from "@builder.io/qwik-city";
 import { routeLoader$ } from "@builder.io/qwik-city";
 import { ServicePlanets } from "../../../service/planet";
@@ -17,11 +17,7 @@ export const useProductDetails = routeLoader$(async (requestEvent) => {
 export default component$(() => {
   const infoContext = useContext(planetContextNoe);
   const planetResource = useProductDetails();
-
-  useTask$(async ({ track }) => {
-    track(() => planetResource.value);
-    infoContext.data = planetResource.value;
-  });
+  infoContext.data = planetResource.value;
 
   return planetResource.value ? <PlanetMain /> : <LoadingPlanet />;
 });
